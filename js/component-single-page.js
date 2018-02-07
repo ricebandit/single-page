@@ -14,7 +14,7 @@ function SinglePage(parent_id, options){
 			}
 
 			if(options.directionalTransition){
-				_transitionDirectional = options.directional;
+				_transitionDirectional = options.directionalTransition;
 			}
 
 		}
