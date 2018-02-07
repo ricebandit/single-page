@@ -60,7 +60,7 @@ If *directionTransition* is set to true, classes are used to set element states 
 2) When a new section is clicked, "active" class is added (z-index:1, transition timing via CSS).
 3) The "in" class is also added (top:0, z-index:2).
 4) Depending on which way the user input was (ie. scroll up, or scroll down), the "up" or "down" class is added, too. Either animate to above the screen or below ("up" sets end transition point at -100%, "down" sets it at 100%).
-5) A TIMEOUT in the JavaScript removes the necessary all added classes, pushing it behind the current content, in it's original-natural position.
+5) A **timeout** in the JavaScript removes the necessary all added classes, pushing it behind the current content, in it's original-natural position.
 
 
 
