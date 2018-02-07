@@ -4,7 +4,8 @@ Non-scrolling site component.
 ## HTML
 Create a element (div, section, etc), give it an id. Each child should have the .slide-container class
 
-```<section id="app">
+```
+<section id="app">
 	<div class="slide-container" id="red">
 		<div class="slide">
 		</div>
