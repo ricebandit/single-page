@@ -1,0 +1,99 @@
+#app{
+	background:rgba(0, 0, 0, 0.5);
+	height: 100vh;
+	overflow:hidden;
+	position:relative;
+	width:100%;
+}
+
+#app .slide-container{
+	height:100%;
+	position:absolute;
+	width:100%;
+}
+
+/* 
+.active class allows transition animation and 
+pulls section to second-from-top of stack. 
+*/
+#app .slide-container.active{
+	transition: 500ms;
+	z-index:1;
+}
+
+/*
+.in pulls section to very top of stack.
+*/
+#app .slide-container.active.in{
+	z-index:2;
+}
+
+#app .slide{
+	height:100%;
+	position:relative;
+	width:100%;
+}
+
+/* ============================== 
+TRANSITION STATES
+============================== */
+#app .slide-container{
+	opacity:0;
+	pointer-events:none;
+}
+
+#app .slide-container.active{
+	pointer-events:auto;
+}
+
+/* ANIMATE IN */
+#app .slide-container.active.in{
+	opacity:1;
+	top:0;
+}
+
+/* ============================== 
+TRANSITION DIRECTIONAL
+============================== */
+#app .slide-container.active.in.up{
+	top:-100%;
+	z-index:2;
+}
+
+#app .slide-container.active.in.down{
+	top:100%;
+	z-index:2;
+}
+
+/* ============================== 
+SLIDE DESIGNATIONS (TEMP)
+============================== */
+#app .slide-container#red{
+	background:url(../img/red.jpg)no-repeat center;
+	background-size:cover;
+}
+
+#app .slide-container#blue{
+	background:url(../img/blue.jpg)no-repeat center;
+	background-size:cover;
+}
+
+#app .slide-container#yellow{
+	background:url(../img/yellow.jpg)no-repeat center;
+	background-size:cover;
+}
+
+#app .slide-container#green{
+	background:url(../img/green.jpg)no-repeat center;
+	background-size:cover;
+}
+
+
+
+
+
+
+
+
+
+
