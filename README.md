@@ -53,7 +53,7 @@ $(document).ready(function(){
 * transitionTime (Integer): Number in milliseconds before transition animation ends. (Default: 1500 ms)
 * directionalTransition (Boolean): If set to true, sections transition in from the top, and out to the bottom. False, sections animate in/out in place. Default: false 
 
-directionTransition cycle:
+**directionTransition cycle:**
 If *directionTransition* is set to true, classes are used to set element states in order to transition in and out correctly. These include: "active", "in", "up", and "down".
 
 1) .slide-container's "natural" state is behind the currently displayed section (opacity: 0, z-index:-1).
