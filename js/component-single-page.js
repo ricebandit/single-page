@@ -4,6 +4,7 @@ function SinglePage(parent_id, options){
 	var _sectionIndex = getActiveSection();
 	var _transitionTime = 1500;
 	var _transitionDirectional = false;
+	var _touchActive = true;
 
 
 	function setOptions(){
@@ -21,19 +22,170 @@ function SinglePage(parent_id, options){
 	}
 
 	function init(){
-		setOptions();
-
-		$("#" + parent_id).on("wheel", function(evt){
-			evt.preventDefault();
-
-			// If wheel scroll "NEXT"
-			if( evt.originalEvent.deltaY > 0){
-				gotoNextSection();
+		// Prevent overscroll on touch devices. May require retooling if need to scroll with outside sections.
+		$(document).on("touchmove", function(evt){
+			if(_touchActive == false){
+				evt.preventDefault();
 			}
 
-			// If wheel scroll "PREV"
-			if( evt.originalEvent.deltaY < 0){
-				gotoPrevSection();
+		})
+
+
+		setOptions();
+
+		activateInputs();
+	}
+
+	function activateInputs(){
+
+		activateMouse();
+
+		activateTouch();
+
+		activateDirectionalKeys();
+	}
+
+	function activateDirectionalKeys(){
+
+		// Arrow keys
+		$(document).on("keydown", function(evt){
+
+			switch(evt.keyCode){
+				case 40:
+					// Next
+					gotoNextSection();
+				break;
+				case 38:
+					// Prev
+					gotoPrevSection();
+				break;
+			}
+			
+		})
+	}
+
+	function activateMouse(){
+
+		// Wheel scroll (MOUSE)
+		$("#" + parent_id).on("wheel", function(evt){
+			var contentHeight = $("#" + parent_id + " .slide-container.active.in .slide").children().height();
+			var parentHeight = $("#" + parent_id + " .slide-container.active.in").height();
+
+			// Check if scrolling within section is necessary. Else, proceed to new section
+			if( parentHeight < contentHeight ){
+				_touchActive = true;
+				var currentScrollPos = $("#" + parent_id + " .slide-container.active.in .slide").scrollTop();
+				var scrollMax = contentHeight - parentHeight;
+
+				if( currentScrollPos >= scrollMax ){
+					// If scrolled to end of content
+					gotoNextSection();
+				}else if (currentScrollPos == 0 && evt.originalEvent.deltaY < 0){
+					// If wheel scroll up, AND currentScrollPos is equal to 0
+					gotoPrevSection();
+				}
+
+			}else{
+				_touchActive = false;
+				evt.preventDefault();
+				// If wheel scroll "NEXT"
+				if( evt.originalEvent.deltaY > 0){
+					gotoNextSection();
+				}
+
+				// If wheel scroll "PREV"
+				if( evt.originalEvent.deltaY < 0){
+					gotoPrevSection();
+				}
+			}
+			
+		})
+	}
+
+	function activateTouch(){
+
+		// Activate mouse (TOUCH)
+		$("#" + parent_id).on("touchstart", function(evt){
+			var contentHeight = $("#" + parent_id + " .slide-container.active.in .slide").children().height();
+			var parentHeight = $("#" + parent_id + " .slide-container.active.in").height();
+
+			// Record initial touch position
+			var startY = $("#" + parent_id + " .slide").scrollTop();
+
+			// Check if scroll CONTENT. Else, proceed to NEW SECTION.
+			if( parentHeight < contentHeight ){
+				_touchActive = true;
+
+				// Listen for "scroll" event (mobile devices fire this when content momentum stops completely), and "touchend" event.
+				$("#" + parent_id + " .slide").on("scroll touchend", function(evt){
+				
+					var currentScrollPos = $("#" + parent_id + " .slide-container.active.in .slide").scrollTop();
+					var scrollMax = contentHeight - parentHeight;
+
+					if( currentScrollPos >= scrollMax ){
+						_touchActive = false;
+
+						// Kill leave, move, and end listeners
+						$("#" + parent_id + " .slide").unbind("scroll");
+						$("#" + parent_id + " .slide").unbind("touchend");
+						$("#" + parent_id).unbind("touchmove");
+						$("#" + parent_id).unbind("touchend");
+
+						// If scrolled to end of content
+						gotoNextSection();
+					}else if (currentScrollPos == 0){
+						_touchActive = false;
+
+						// Kill leave, move, and end listeners
+						$("#" + parent_id + " .slide").unbind("scroll");
+						$("#" + parent_id + " .slide").unbind("touchend");
+						$("#" + parent_id).unbind("touchmove");
+						$("#" + parent_id).unbind("touchend");
+						
+						// If wheel scroll up, AND currentScrollPos is equal to 0
+						gotoPrevSection();
+					}
+				})
+			}else{
+				_touchActive = false;
+
+				// Record initial touch position
+				var startY;
+
+				if(evt.touches){
+					startY = evt.touches[0].pageY;
+				}else{
+					startY = evt.pageY;
+				}
+
+				// Activate touch end.
+				$("#" + parent_id).on("touchend", function(evt){
+					
+					// Record touch end position
+					var endY;
+
+					endY = evt.pageY;
+
+					// Calculate delta shift
+					var delta = endY - startY;
+
+					// Prevent page from changing by simple click at end of page.
+					if( delta == 0){
+						return false;
+					}
+
+					// Based off of delta shift, go to next or previous section
+					if(delta < 0){
+						gotoNextSection();
+					}else{
+						gotoPrevSection();
+					}
+
+					// Kill leave, move, and end listeners
+					$("#" + parent_id).unbind("touchend");
+					
+				})
+
 			}
 		})
 	}

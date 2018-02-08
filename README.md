@@ -3,7 +3,7 @@ Non-scrolling site component.
 
 * Dependencies
 	* jQuery
-	* single-page.css
+	* component-single-page.css
 
 ## Notes
 * For the most part, JavaScript/jQuery only affects the mark-up by adding/removing class states.

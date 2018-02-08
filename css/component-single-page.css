@@ -1,3 +1,9 @@
+@media (hover:none){
+	html,body{
+		overflow:hidden;
+	}
+}
+
 #app{
 	background:rgba(0, 0, 0, 0.5);
 	height: 100vh;
@@ -30,8 +36,10 @@ pulls section to second-from-top of stack.
 
 #app .slide{
 	height:100%;
+	overflow:auto;
 	position:relative;
 	width:100%;
+	-webkit-overflow-scrolling: touch;
 }
 
 /* ============================== 
@@ -43,13 +51,16 @@ TRANSITION STATES
 }
 
 #app .slide-container.active{
-	pointer-events:auto;
+	pointer-events:unset;
 }
 
 /* ANIMATE IN */
 #app .slide-container.active.in{
 	opacity:1;
 	top:0;
+
+
+
 }
 
 /* ============================== 
@@ -64,6 +75,31 @@ TRANSITION DIRECTIONAL
 	top:100%;
 	z-index:2;
 }
+
+/* ============================== 
+CONTENT
+============================== */
+#app #red .temp-content{
+	background:rgba(200, 0, 0, 0.25);
+	color:#fff;
+	display:inline-block;
+	min-height:1000px;
+	width:45%;
+}
+
+#app #red .temp-content2{
+	background:rgba(0, 200, 0, 0.25);
+	color:#fff;
+	display:inline-block;
+	min-height:200px;
+	vertical-align:top;
+	width:45%;
+}
+
+#app #red .temp-content2 .temp-box{
+
+}
+
 
 /* ============================== 
 SLIDE DESIGNATIONS (TEMP)
