@@ -72,16 +72,14 @@ function SinglePage(parent_id, options){
 			var contentHeight = $("#" + parent_id + " .slide-container.active.in .slide").children().height();
 			var parentHeight = $("#" + parent_id + " .slide-container.active.in").height();
 
-			console.log( "contentHeight", contentHeight, "parentHeight", parentHeight );
-
 
 			// Check if scrolling within section is necessary. Else, proceed to new section
 			if( parentHeight < contentHeight ){
 				_touchActive = true;
 				var currentScrollPos = $("#" + parent_id + " .slide-container.active.in .slide").scrollTop();
-				var scrollMax = contentHeight - parentHeight - 1;
+				var scrollMax = contentHeight - parentHeight;
 
-				if( currentScrollPos >= scrollMax ){
+				if( currentScrollPos >= scrollMax && evt.originalEvent.deltaY > 0 ){
 					// If scrolled to end of content
 					gotoNextSection();
 				}else if (currentScrollPos == 0 && evt.originalEvent.deltaY < 0){
@@ -90,7 +88,6 @@ function SinglePage(parent_id, options){
 				}
 
 			}else{
-				console.log("no content", $("#" + parent_id + " .slide-container.active.in") );
 				_touchActive = false;
 				evt.preventDefault();
 				// If wheel scroll "NEXT"

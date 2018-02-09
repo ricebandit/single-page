@@ -118,8 +118,19 @@ CONTENT
 	color:#fff;
 	display:inline-block;
 	min-height:200px;
+	opacity:0;
 	vertical-align:top;
 	width:45%;
+}
+
+#app #red.in .temp-content2{
+	opacity:1;
+	transition:500ms opacity 2500ms;
+}
+
+#app #red.out .temp-content2{
+	opacity:0;
+	transition:500ms opacity;
 }
 
 #app #red .temp-content2 .temp-box{
