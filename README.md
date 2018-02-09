@@ -50,8 +50,8 @@ $(document).ready(function(){
 ```
 
 ## Options
-* transitionTime (Integer): Number in milliseconds before transition animation ends. (Default: 1500 ms)
-* directionalTransition (Boolean): If set to true, sections transition in from the top, and out to the bottom. False, sections animate in/out in place. Default: false 
+* **transitionTime** (Integer): Number in milliseconds before transition animation ends. (Default: 1500 ms)
+* **directionalTransition** (Boolean): If set to true, sections transition in from the top, and out to the bottom. False, sections animate in/out in place. Default: false 
 
 **directionTransition cycle:**
 If *directionTransition* is set to true, classes are used to set element states in order to transition in and out correctly. These include: "active", "in", "up", and "down".
