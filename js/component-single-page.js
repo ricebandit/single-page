@@ -23,7 +23,7 @@ function SinglePage(parent_id, options){
 
 	function init(){
 		// Prevent overscroll on touch devices. May require retooling if need to scroll with outside sections.
-		$(document).on("touchmove", function(evt){
+		$("#" + parent_id).on("touchmove", function(evt){
 			if(_touchActive == false){
 				evt.preventDefault();
 			}
@@ -68,14 +68,18 @@ function SinglePage(parent_id, options){
 
 		// Wheel scroll (MOUSE)
 		$("#" + parent_id).on("wheel", function(evt){
+
 			var contentHeight = $("#" + parent_id + " .slide-container.active.in .slide").children().height();
 			var parentHeight = $("#" + parent_id + " .slide-container.active.in").height();
+
+			console.log( "contentHeight", contentHeight, "parentHeight", parentHeight );
+
 
 			// Check if scrolling within section is necessary. Else, proceed to new section
 			if( parentHeight < contentHeight ){
 				_touchActive = true;
 				var currentScrollPos = $("#" + parent_id + " .slide-container.active.in .slide").scrollTop();
-				var scrollMax = contentHeight - parentHeight;
+				var scrollMax = contentHeight - parentHeight - 1;
 
 				if( currentScrollPos >= scrollMax ){
 					// If scrolled to end of content
@@ -86,6 +90,7 @@ function SinglePage(parent_id, options){
 				}
 
 			}else{
+				console.log("no content", $("#" + parent_id + " .slide-container.active.in") );
 				_touchActive = false;
 				evt.preventDefault();
 				// If wheel scroll "NEXT"
@@ -215,10 +220,13 @@ function SinglePage(parent_id, options){
 			setTimeout(function(){
 				
 				$( $("#" + parent_id + " .slide-container")[_sectionIndex] ).removeClass("down");
-			}, 1);
+			}, 0);
 
+			// Activate new section
 			$( $("#" + parent_id + " .slide-container")[_sectionIndex] ).addClass("active");
 			$( $("#" + parent_id + " .slide-container")[_sectionIndex] ).addClass("in");
+			$( $("#" + parent_id + " .slide-container")[oldSectionIndex] ).removeClass("in");
+			$( $("#" + parent_id + " .slide-container")[oldSectionIndex] ).addClass("out");
 
 			// Allow time for animated transition (1500ms) before re-enabling scrolling.
 			setTimeout(function(){
@@ -226,20 +234,24 @@ function SinglePage(parent_id, options){
 
 				$( $("#" + parent_id + " .slide-container")[oldSectionIndex] ).removeClass("active");
 				$( $("#" + parent_id + " .slide-container")[oldSectionIndex] ).removeClass("in");
+				$( $("#" + parent_id + " .slide-container")[oldSectionIndex] ).removeClass("out");
 				$( $("#" + parent_id + " .slide-container")[oldSectionIndex] ).removeClass("up");
 				$( $("#" + parent_id + " .slide-container")[oldSectionIndex] ).removeClass("down");
 			}, _transitionTime);
 
 		}else{
 
+			// Activate new section
 			$( $("#" + parent_id + " .slide-container")[_sectionIndex] ).addClass("active");
 			$( $("#" + parent_id + " .slide-container")[_sectionIndex] ).addClass("in");
 			$( $("#" + parent_id + " .slide-container")[oldSectionIndex] ).removeClass("in");
+			$( $("#" + parent_id + " .slide-container")[oldSectionIndex] ).addClass("out");
 
 			// Allow time for animated transition (1500ms) before re-enabling scrolling.
 			setTimeout(function(){
 				_animating = false;
 
+				$( $("#" + parent_id + " .slide-container")[oldSectionIndex] ).removeClass("out");
 				$( $("#" + parent_id + " .slide-container")[oldSectionIndex] ).removeClass("active");
 				
 			}, _transitionTime);
@@ -274,32 +286,38 @@ function SinglePage(parent_id, options){
 			setTimeout(function(){
 				
 				$( $("#" + parent_id + " .slide-container")[_sectionIndex] ).removeClass("up");
-			}, 1);
+			}, 0);
 
+			// Activate new section
 			$( $("#" + parent_id + " .slide-container")[_sectionIndex] ).addClass("active");
 			$( $("#" + parent_id + " .slide-container")[_sectionIndex] ).addClass("in");
+			$( $("#" + parent_id + " .slide-container")[oldSectionIndex] ).removeClass("in");
+			$( $("#" + parent_id + " .slide-container")[oldSectionIndex] ).addClass("out");
 
 			// Allow time for animated transition (1500ms) before re-enabling scrolling.
 			setTimeout(function(){
 				_animating = false;
 
 				$( $("#" + parent_id + " .slide-container")[oldSectionIndex] ).removeClass("active");
-				$( $("#" + parent_id + " .slide-container")[oldSectionIndex] ).removeClass("in");
+				$( $("#" + parent_id + " .slide-container")[oldSectionIndex] ).removeClass("out");
 				$( $("#" + parent_id + " .slide-container")[oldSectionIndex] ).removeClass("up");
 				$( $("#" + parent_id + " .slide-container")[oldSectionIndex] ).removeClass("down");
 			}, _transitionTime);
 
 		}else{
 
+			// Activate new section
 			$( $("#" + parent_id + " .slide-container")[_sectionIndex] ).addClass("active");
 			$( $("#" + parent_id + " .slide-container")[_sectionIndex] ).addClass("in");
 			$( $("#" + parent_id + " .slide-container")[oldSectionIndex] ).removeClass("in");
+			$( $("#" + parent_id + " .slide-container")[oldSectionIndex] ).addClass("out");
 
 			// Allow time for animated transition (1500ms) before re-enabling scrolling.
 			setTimeout(function(){
 				_animating = false;
 
 				$( $("#" + parent_id + " .slide-container")[oldSectionIndex] ).removeClass("active");
+				$( $("#" + parent_id + " .slide-container")[oldSectionIndex] ).removeClass("out");
 				
 			}, _transitionTime);
 

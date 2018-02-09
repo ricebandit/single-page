@@ -20,10 +20,12 @@
 
 /* 
 .active class allows transition animation and 
-pulls section to second-from-top of stack. 
+pulls section to second-from-top of stack.
+
+transition delay should be set to after all content's animations are done.
 */
 #app .slide-container.active{
-	transition: 500ms;
+	transition: 500ms top 1500ms, 500ms opacity 1500ms;
 	z-index:1;
 }
 
@@ -67,11 +69,24 @@ TRANSITION STATES
 TRANSITION DIRECTIONAL
 ============================== */
 #app .slide-container.active.in.up{
+	opacity:1;
 	top:-100%;
 	z-index:2;
 }
 
 #app .slide-container.active.in.down{
+	opacity:1;
+	top:100%;
+	z-index:2;
+}
+#app .slide-container.active.out.up{
+	opacity:1;
+	top:-100%;
+	z-index:2;
+}
+
+#app .slide-container.active.out.down{
+	opacity:1;
 	top:100%;
 	z-index:2;
 }
@@ -84,7 +99,18 @@ CONTENT
 	color:#fff;
 	display:inline-block;
 	min-height:1000px;
+	opacity:0;
 	width:45%;
+}
+
+#app #red.in .temp-content{
+	opacity:1;
+	transition:500ms opacity 2500ms;
+}
+
+#app #red.out .temp-content{
+	opacity:0;
+	transition:500ms opacity;
 }
 
 #app #red .temp-content2{
